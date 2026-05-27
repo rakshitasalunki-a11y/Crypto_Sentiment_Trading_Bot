@@ -1,6 +1,6 @@
 # Crypto Sentiment-Based Trading Bot
 
-Flask + MySQL project based on the report in `Rakshita(1).PDF`.
+Flask + SQLite project based on the report in `Rakshita(1).PDF`.
 
 ## Features
 
