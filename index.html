@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% set title = "CryptoSense AI | Home" %}
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <p class="eyebrow">NLP powered crypto trading signals</p>
+        <h1>Crypto Sentiment-Based Trading Bot</h1>
+        <p class="hero-copy">Analyze social hype, market mood, RSI, moving averages, and risk rules to generate smarter BUY, SELL, or HOLD signals.</p>
+        <div class="hero-actions">
+            <a class="btn primary" href="{{ url_for('register') }}">Start Trading Demo</a>
+            <a class="btn ghost" href="{{ url_for('login') }}">Login</a>
+        </div>
+    </div>
+    <div class="signal-panel">
+        <div class="orbital"></div>
+        <h2>Live AI Mood Scan</h2>
+        {% for item in analyzed %}
+            <article class="mini-signal">
+                <span class="score">{{ item.score }}</span>
+                <div>
+                    <strong>{{ item.mood }}</strong>
+                    <p>{{ item.text }}</p>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="features">
+    <div>
+        <p class="eyebrow">Report modules</p>
+        <h2>Built from the project synopsis</h2>
+    </div>
+    <div class="feature-grid">
+        <article>
+            <span>01</span>
+            <h3>Sentiment Engine</h3>
+            <p>Scores crypto news or social posts from -1.0 to +1.0 and classifies market mood.</p>
+        </article>
+        <article>
+            <span>02</span>
+            <h3>Signal Generator</h3>
+            <p>Combines sentiment, price, moving average, and RSI to produce BUY, SELL, or HOLD.</p>
+        </article>
+        <article>
+            <span>03</span>
+            <h3>Risk Manager</h3>
+            <p>Supports stop-loss and take-profit settings for every simulated trade execution.</p>
+        </article>
+        <article>
+            <span>04</span>
+            <h3>Admin Control</h3>
+            <p>Tracks registered users, app operations, AI signals, and simulated trade activity.</p>
+        </article>
+    </div>
+</section>
+
+<section class="wide-band">
+    <div>
+        <p class="eyebrow">Extra AI features</p>
+        <h2>Beyond the report</h2>
+    </div>
+    <div class="three-col">
+        <article><h3>AI Risk Notes</h3><p>Every generated signal includes a plain-language explanation for the decision.</p></article>
+        <article><h3>Portfolio Mood Chart</h3><p>The dashboard visualizes price and sentiment movement together for easier comparison.</p></article>
+        <article><h3>Trade Simulation Log</h3><p>Signals automatically create simulated trade entries with profit/loss estimation.</p></article>
+    </div>
+</section>
+{% endblock %}

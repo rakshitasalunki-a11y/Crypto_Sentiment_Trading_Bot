@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% set title = "Register | CryptoSense AI" %}
+{% block content %}
+<section class="auth-page register-bg">
+    <form class="auth-card" method="post">
+        <p class="eyebrow">Create account</p>
+        <h1>Register Trader</h1>
+        <label>Name <input type="text" name="name" required placeholder="Enter full name"></label>
+        <label>Email <input type="email" name="email" required placeholder="trader@example.com"></label>
+        <label>Phone <input type="text" name="phone" placeholder="Optional phone number"></label>
+        <label>Password <input type="password" name="password" required placeholder="Normal password"></label>
+        <button class="btn primary full" type="submit">Create Account</button>
+        <p class="muted">Already registered? <a href="{{ url_for('login') }}">Login here</a></p>
+    </form>
+</section>
+{% endblock %}

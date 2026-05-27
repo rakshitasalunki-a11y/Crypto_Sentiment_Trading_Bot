@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% set title = "Login | CryptoSense AI" %}
+{% block content %}
+<section class="auth-page login-bg">
+    <form class="auth-card compact" method="post">
+        <p class="eyebrow">Secure access</p>
+        <h1>Login</h1>
+        <label>Email <input type="email" name="email" required placeholder="trader@example.com"></label>
+        <label>Password <input type="password" name="password" required placeholder="Enter password"></label>
+        <button class="btn primary full" type="submit">Login</button>
+        <div class="credential-box">
+            <strong>Admin:</strong> admin@cryptobot.com / admin123<br>
+            <strong>Demo:</strong> trader@example.com / 12345
+        </div>
+    </form>
+</section>
+{% endblock %}

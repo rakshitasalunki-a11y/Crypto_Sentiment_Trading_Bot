@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% set title = "Dashboard | CryptoSense AI" %}
+{% block content %}
+<section class="dashboard-head">
+    <div>
+        <p class="eyebrow">Trader workspace</p>
+        <h1>Welcome, {{ current_user.name }}</h1>
+        <p>Generate AI sentiment signals from crypto news, Reddit-style comments, or market headlines.</p>
+    </div>
+    <div class="metric-card">
+        <span>Signals</span>
+        <strong>{{ signals|length }}</strong>
+    </div>
+</section>
+
+<section class="workspace-grid">
+    <form class="tool-panel" method="post" action="{{ url_for('analyze') }}">
+        <h2>AI Signal Generator</h2>
+        <label>Crypto Symbol
+            <select name="symbol">
+                <option>BTC</option><option>ETH</option><option>SOL</option><option>BNB</option><option>XRP</option>
+            </select>
+        </label>
+        <label>Social / News Text
+            <textarea name="market_text" required rows="7" placeholder="Example: Bitcoin rally looks bullish after ETF inflows and institutional adoption..."></textarea>
+        </label>
+        <div class="split">
+            <label>Stop Loss %
+                <input type="number" step="0.1" min="0.5" name="stop_loss" value="2.5">
+            </label>
+            <label>Take Profit %
+                <input type="number" step="0.1" min="1" name="take_profit" value="5">
+            </label>
+        </div>
+        <button class="btn primary full" type="submit">Analyze & Execute Simulation</button>
+    </form>
+
+    <div class="chart-grid">
+        <div class="chart-panel">
+            <h2>Sentiment & Price Index</h2>
+            <canvas id="combinedChart" height="260"></canvas>
+        </div>
+        <div class="chart-panel">
+            <h2>Sentiment & Price Index (Duplicate)</h2>
+            <canvas id="combinedChartCopy" height="260"></canvas>
+        </div>
+    </div>
+</section>
+
+<section class="tables-grid">
+    <div class="table-card">
+        <h2>Recent AI Signals</h2>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Coin</th><th>Mood</th><th>Score</th><th>RSI</th><th>Signal</th><th>Time</th></tr></thead>
+                <tbody>
+                    {% for signal in signals %}
+                    <tr>
+                        <td>{{ signal.symbol }}</td>
+                        <td>{{ signal.sentiment_label }}</td>
+                        <td>{{ signal.sentiment_score }}</td>
+                        <td>{{ signal.rsi }}</td>
+                        <td><span class="badge {{ signal.signal|lower }}">{{ signal.signal }}</span></td>
+                        <td>{{ signal.created_at }}</td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="6">No signals yet. Run the AI generator above.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="table-card">
+        <h2>Trade Simulation Logs</h2>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Coin</th><th>Action</th><th>Entry</th><th>SL</th><th>TP</th><th>P/L</th></tr></thead>
+                <tbody>
+                    {% for trade in trades %}
+                    <tr>
+                        <td>{{ trade.symbol }}</td>
+                        <td><span class="badge {{ trade.action|lower }}">{{ trade.action }}</span></td>
+                        <td>{{ trade.entry_price }}</td>
+                        <td>{{ trade.stop_loss }}%</td>
+                        <td>{{ trade.take_profit }}%</td>
+                        <td>{{ trade.pnl }}</td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="6">No trades yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

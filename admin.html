@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% set title = "Admin Dashboard | CryptoSense AI" %}
+{% block content %}
+<section class="admin-hero">
+    <div>
+        <p class="eyebrow">Administrator</p>
+        <h1>Control Center</h1>
+        <p>Monitor registered users, app operations, AI signals, and simulated trades.</p>
+    </div>
+    <div class="stat-row">
+        <article><span>Users</span><strong>{{ stats.users }}</strong></article>
+        <article><span>Signals</span><strong>{{ stats.signals }}</strong></article>
+        <article><span>Trades</span><strong>{{ stats.trades }}</strong></article>
+        <article><span>Avg Mood</span><strong>{{ stats.avg_sentiment }}</strong></article>
+    </div>
+</section>
+
+<section class="admin-grid">
+    <form class="tool-panel" method="post" action="{{ url_for('admin_add_user') }}">
+        <h2>Add User</h2>
+        <label>Name <input name="name" required></label>
+        <label>Email <input type="email" name="email" required></label>
+        <label>Phone <input name="phone"></label>
+        <label>Password <input name="password" required></label>
+        <button class="btn primary full" type="submit">Add User</button>
+    </form>
+
+    <div class="table-card">
+        <h2>Registered Users</h2>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Name</th><th>Email</th><th>Password</th><th>Phone</th><th>Action</th></tr></thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td><input form="edit-{{ user.id }}" name="name" value="{{ user.name }}" required></td>
+                        <td><input form="edit-{{ user.id }}" type="email" name="email" value="{{ user.email }}" required></td>
+                        <td><input form="edit-{{ user.id }}" name="password" value="{{ user.password }}" required></td>
+                        <td><input form="edit-{{ user.id }}" name="phone" value="{{ user.phone or '' }}"></td>
+                        <td class="row-actions">
+                            <form id="edit-{{ user.id }}" method="post" action="{{ url_for('admin_edit_user', user_id=user.id) }}">
+                                <button class="small-btn" type="submit">Edit</button>
+                            </form>
+                            <form method="post" action="{{ url_for('admin_delete_user', user_id=user.id) }}" onsubmit="return confirm('Delete this user?')">
+                                <button class="small-btn danger" type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="table-card operations">
+    <h2>User Operations</h2>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>User</th><th>Action</th><th>Details</th><th>IP</th><th>Time</th></tr></thead>
+            <tbody>
+                {% for op in operations %}
+                <tr>
+                    <td>{{ op.user_name or 'Admin/System' }}</td>
+                    <td>{{ op.action }}</td>
+                    <td>{{ op.details }}</td>
+                    <td>{{ op.ip_address }}</td>
+                    <td>{{ op.created_at }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="5">No operations recorded.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
